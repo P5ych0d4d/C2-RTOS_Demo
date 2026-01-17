@@ -1,0 +1,55 @@
+xPortPendSVHandler is FreeRTOS's context switcher.
+
+
+vPortSVCHandler
+
+The Cortex-M cores support the SuperVisor Call (SVC) instruction, 
+with that the user can trigger an exception. This can become handy if e. g. 
+the core is in unprivileged mode and the program needs to access special registers, 
+that only can be accessed in privileged mode. Exceptions run in privileged mode.
+
+FreeRTOS only uses an SVC 0 call.  It uses it once only, to start the scheduler, and then never uses it again.
+
+MEMORY CONFIGURATION	for Version 1.1
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  00007d92  0003826e  R  X
+  SRAM                  20000000   00010000  000085ac  00007a54  RW X
+  
+MEMORY CONFIGURATION	for Version 1.2 ohne LCD-Ausgabe
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  000064ee  00039b12  R  X
+  SRAM                  20000000   00010000  0000855c  00007aa4  RW X
+
+  MEMORY CONFIGURATION  for Version 1.2 mit LCD-Ausgabe und Startbild
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  0000c91a  000336e6  R  X
+  SRAM                  20000000   00010000  0000864c  000079b4  RW X
+  
+  MEMORY CONFIGURATION for Version 1.2 mit LCD-Ausgabe ohne Startbild
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  00007cc2  0003833e  R  X
+  SRAM                  20000000   00010000  0000864c  000079b4  RW X
+  
+  MEMORY CONFIGURATION for Version 4.53 full (All tasks fulfilled)  -Ooff
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  00010de2  0002f21e  R  X
+  SRAM                  20000000   00010000  0000cabf  00003541  RW X
+  
+  MEMORY CONFIGURATION for Version 4.53 only task 4.1  -Ooff
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH                 00000000   00040000  0000bd9e  00034262  R  X
+  SRAM                  20000000   00010000  0000a61a  000059e6  RW X
+  
+  
