@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<HTML>
+<HEAD>
+<TITLE>Motordaten</TITLE>
+</HEAD>
+<body onLoad="window.setTimeout(&quot;location.href='content.shtml'&quot;,2000)">
+<table width="100%" style="background-color: #F2F5A9">
+<tr><td align="center">
+<font size="7" color="#58ACFA"> HTW Dresden</font>
+<br>
+<font size="6" color="#58ACFA"> Praktikum - Eingebettete Systeme - 
+<a href="https://www.htw-dresden.de/hochschule/fakultaeten/elektrotechnik/labore/mikrorechentechnik" target="_blank" 
+   style="text-decoration: none">Fak. ET</a></font>
+</td></tr></table>
+<br><br>
+<center>
+<table border="2" width="500" bgcolor="#FFF8C6">
+<tbody align="center">
+<tr><th colspan="3">Motor-Daten</th></tr>
+%! control-info
+</tbody>
+</table>
+</center>
+</body>
+</html>

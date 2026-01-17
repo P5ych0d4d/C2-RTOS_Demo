@@ -1,0 +1,1 @@
+extern void vSetupHighFrequencyTimer( void );

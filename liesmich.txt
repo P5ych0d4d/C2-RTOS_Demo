@@ -1,0 +1,148 @@
+Projektbeschreibung RTOS-Demo_JH
+-------------------------------------------------------------------------------------
+FreeRTOS-Applikation zur Ansteurung und Drehzahlregelung eines BLDC
+mit LCD und WEB-Interface
+-------------------------------------------------------------------------------------
+
+IDE: CCS 6.1
+Compiler: TI ARM C/C++ CODE GENERATION TOOLS, 15.12.7.LTS, 11/2017
+                                  
+Ziel-CPU: LM3s6965
+
+HTW Dresden, Fak. ET, Dipl.-Ing. J. Huhle 25.4.2022
+-------------------------------------------------------------------------------------
+
+	
+Pflegeprotokoll
+-------------------------------------------------------------------------------------
+Projekt-Anpassungen
+--------------------------------------
+21.07.2011	Projekt-Einstellungen: make erweitert auf alle C-Module, Auswirkung auf alle C-Module im Modul-Kopf (decl., incl.)
+            app_tasks.c: - Port B.0 stellt zusaetzl. OSZI-Signal zur Laufzeitmessung bereit.
+                         - Drehz.berechnung korrigiert
+                         - Dreh.richtungserkennung: Vorzeichen gewechselt
+                         - Nominalspeed wird durch ADC1-input variiert.
+            hw_api.c:    - ADC1 und PB.0 init.
+
+			Version: 2_01
+
+16.08.2011	*** Port-Umwidmungen ***
+			fuer Bruecke 2 wird PB2 verwendet, PC5 freigesetzt
+			Damit liegen alle sechs Steuersignale auf dem rechten SV.
+			Modul: hw_api.c mit Aenderungen in hw_SetBridge() und hw_Init()
+			
+			PA0(U0RX) freisetzen, damit der virtuelle COM-Port genutzt werden kann.
+			PC4 als INT-Eingang fuer Ueberstrom benutzen.
+			Modul: hw_api.c mit Aenderungen in hw_Init()
+			Modul: startup.c mit Aenderungen in Vektor-Tab. und CurrentDetection()
+			
+			Version: 2_02
+		
+24.08.2011	- vOLEDTask/PrintStatus(): Uebergabe der AusgabeStrings mit XY-Position
+										Damit wird Flimmern vermieden und die Performance erh�ht.
+            - Select-Switch startet die Drehzahlregelung, z.Z. ohne Wirkung.
+            - Schnelle Timer 0 und 1 implementiert.
+			- Drehzahlmessung auf Basis von Periodendauermessung implementiert.   Stromsicherung deaktiviert!
+			- PI-Regler implementiert, Spannungsreglung vorerst deaktiviert.
+				
+			Version: 2_03
+
+25.08.2011	- PrintStatus(): nur noch vier Parameter,
+			- Task zur Spannungsreglung aktiviert. Es wird nur noch die Betriebsspannung gemessen.
+			- Drehzahl wird auf Zehner gerundet,
+			- hw_SetPulseWidth() mit Eingabebereich von 0...1000, damit kann feiner gestellt werden.
+				
+			Version: 2_04
+
+26.08.2011	- Stromsicherung aktiviert,
+			- Motor bleibt nach RESET im Stillstand, Sollwert f�r Regler auf NULL,
+			- Tastenabfrage der drei OnBoard-Taster einbezogen, SELECT startet den Motorhochlauf.
+				
+			Version: 2_05
+
+29.08.2011	- Kosmetik,
+			- Webseite angepasst,
+			- Ueberstrom-Reaktion angepasst,
+			- make-file von Ballast befreit.
+				
+			Version: 2_06						Uebergabe an Prof. Boden
+			
+01.09.2011	- StepperMode ohne Sensor-Signale mit Timer_0-Taktung implementiert.
+
+			Version: 2_07
+
+02.09.2011	- UART-EA eingebaut.
+				
+			Version: 2_07a
+			
+14.09.2011	- Kosmetik
+
+17.07.2012	- Kosmetik
+
+27.08.2012  - Projekt-Ordner-Struktur optimiert
+			- Basis-Projekt getestet -> ok
+			- Vollstaendig-Projekt mit opt. Regler -> ok
+			
+11.09.2012	- Projektmigration auf CoIDE
+			- wenn Linker mit sbrk_error antw., dann folg. Compiler-Optionen verwenden:
+				-Dsprintf=usprintf -Dsnprintf=usnprintf -Dprintf=uipprintf
+			  Achtung, die ustdlib.c muss verlinkt sein. Die retarget_printf der CoIDE ist unzureichend.
+			  Erklaerung: die Code Sourcery Lite tool chain nutzt die newlib C Library. Diese benoetigt einige Systemfunktionen,
+						welche durch die syscalls.c oder die ustlib.c bereitgestellt werden.
+
+              - Zur Vermeidung von Zeiger-Typ-Warnungen in der httpd-fsdata.c wird mit GCC-option -Wno-pointer-sign compiliert.
+              - Zur Vermeidung von ungenutzten gesetzten Vars, -Wno-unused-but-set-variable
+              - Zur Vermeidung von implizieter Funkt.Deklar.,  -Wno-implicit-function-declaration
+                   									
+12.09.2012	- Projekt-Struktur-Optimierung
+              Version: 3_0
+
+13.09.2012	- Projekt-Migration auf FreeRTOS V7.2.0
+     		  Version: 4_0
+     		  
+14.09.2012	- Kosmetik
+			  Version: 4_0a     		  
+
+21.09.2012	- Kosmetik
+			  Version: 4_0c     		  
+
+28.09.2012	- Basis mit Demo-Web-Server und deakt. TCP-App. HelloWorld 
+
+16.12.2014      - CoIDE Version 1.7.6
+                  Achtung: in uIP_Task.c IP anpassen,
+                   z.Z.		192.168.0.2
+                   		*	172.25.218.19
+
+15.01.2016	- TCP port 1000 service in httpd_appcall(void) (http.c) implementiert.
+				siehe: http://users.ece.utexas.edu/~mcdermot/arch/projects_fall_09/Team_04/project/uip-1.0/doc/html/main.html
+				oder:  uip-refman.pdf   
+
+15.01.2020	- Reglertask entspr. Franke-RT angepasst.
+
+17.08.2022	- OLED durch Farb-LCD ersetzt, kleinere Code-Optimierungen
+			  Version: 4.1
+			  
+18.08.2022	- kleine Korrekturen in vOLEDTask() und im LCD-Treiber
+			  Version: 4.2
+
+23.08.2022	- LCD-Refresh im EXEC_MODE 2 geaendert.
+			  Version: 4.3
+
+24.08.2022	- UART-Service jetzt mit Ringpuffern und INT-Mode
+			  Version: 4.4
+			  			  
+04.10.2022	- main.c mit kleinen Anpassungen, http-cgi.c von nichtbenutzen Funktionen befreit.
+			  Version: 4.5
+
+10.01.2023	- IDE-Wechsel auf CCS-Version6
+			  Version: 4.51
+
+02.02.2023	- WEB-UI angepasst und in httpd-cgi.c dyn. Ausgabe angepasst.
+			  Version: 4.52
+
+03.02.2023	- WEB-UI angepasst und in httpd-cgi.c dyn. Ausgabe angepasst. makefsdata auf Verzeichnis fs angepasst.
+				Datei httpd-fsdata.c kann mittels makefsdata erzeugt werden. Getestet mit httpd-fsdata_5.c.
+			  Version: 4.53
+
+17.07.2024	- Drehzahlproblem nach Taste 'select' behoben.
+			  Version: 4.54

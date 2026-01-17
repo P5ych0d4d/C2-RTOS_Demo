@@ -1,0 +1,17 @@
+Der Treiber ist eine Kombination aus zwei Teilen:
+1. von (C)2010-2013 Henning Karlsen, wie auch beim STM32-Projekt
+	Bei dem gibt es leider keinen 5x7 Font.
+	
+2. von Prof. Valvano zur Zeichenausgabe mit 5x7-Zeichensatz
+	https://users.ece.utexas.edu/~valvano/arm/
+
+------------------------------------------------------------------------
+
+
+
+Zum Konvertieren von Grafiken nutzt man dieses online_tool.
+
+!!! Bild vorher horizontal spiegeln. !!!
+siehe Beispiel unter /Bitmap für das Logo
+
+http://www.rinkydinkelectronics.com/t_imageconverter565.php

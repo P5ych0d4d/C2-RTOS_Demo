@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Sollwerteingabe</title>
+</head>
+<BODY>
+<font face="arial">
+<p>
+<center>
+<form name="aForm" action="/input.shtml" method="get">
+<table><tr><td align=\"right\">Solldrehzahl:</td>
+%! input-field
+</table>
+<p>
+<input type="submit" value="Setzen">
+</form>
+</center>
+</font>
+<p align="right">&copy;2/23</p>
+</body>
+</html>
+

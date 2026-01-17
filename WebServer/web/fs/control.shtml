@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Drehzahlregelung für BLDC</title>
+</head>
+<frameset rows="160,80">
+
+  <frame src="content.shtml" name="ContentVisualization">
+  
+  <frame src="input.shtml" name="InputFrame">
+
+  <noframes>
+    <body>
+      <h1>Problem: Ihr Broser unterstützt keine Frames</h1>
+    </body>
+  </noframes>
+</frameset>
+</html>
