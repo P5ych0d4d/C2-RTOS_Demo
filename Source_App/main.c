@@ -168,8 +168,33 @@ int main( void )
 
 	if(EXEC_MODE==1)			/* Praktikum Teil 1 */
 	{
+		//Aufgabe 4.4 - auskommentieren zuvor
+		vSemaphoreCreateBinary(xSemaphore1);
+		vSemaphoreCreateBinary(xSemaphore2);
+
+		// Aufgabe 4.2 OLEDQueue anlegen
+		xOLEDQueue = xQueueCreate(1, sizeof(xOLEDMessage)); // Fehlerbehandlung hinzufügen
+
+
+
 		// Tasks anlegen
 		xTaskCreate( vTask1, ( signed char * ) "Task1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, NULL );
+
+		// Aufgabe 4.1
+		/* Tasks anlegen */
+		xTaskCreate( vVoltage_Supervisor, ( signed portCHAR * ) "Voltage", configMINIMAL_STACK_SIZE * 2, NULL, tskIDLE_PRIORITY + 2, NULL );
+		xTaskCreate( vSpeed_Control, ( signed portCHAR * ) "Speed", configMINIMAL_STACK_SIZE * 2, NULL, tskIDLE_PRIORITY + 3, NULL );
+
+		// AUfgabe 4.2
+		/* Task fuer Display-Anzeige erzeugen */
+		xTaskCreate( vOLEDTask, ( signed portCHAR * ) "OLED", mainOLED_TASK_STACK_SIZE, NULL, tskIDLE_PRIORITY + 4, NULL );
+
+
+		// Aufgabe 4.3
+		/* Tasks Voltage, Speed und OLED obene auskomemntieren*/
+		xTaskCreate( vTask2, ( signed char * ) "Task1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 3, NULL );
+		xTaskCreate( vTask3, ( signed char * ) "Task1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 3, NULL );
+		xTaskCreate( vTask4, ( signed char * ) "Task1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, NULL );
 	}
 	else if(EXEC_MODE==2)		/* Praktikum Teil 2 */
 	{

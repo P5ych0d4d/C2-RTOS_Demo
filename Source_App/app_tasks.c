@@ -71,12 +71,69 @@ extern long NominalSpeedWebInternal;	// located in uIP_Task.c
 /* Task Nr. 1 */
 void vTask1( void *pvParameters )
 {
+	//Aufgabe 4.2
+	/* OLED Message anlegen/initiieren*/
+	xOLEDMessage xMessage;
+	xMessage.x = 0;
+	xMessage.y = 0;
+	xMessage.pcMessage = (const char *) pvParameters;
 
-	for( ;; )
+	/* Verzögerungssschleife */
+	for(volatile int i = 0; i < 5000 ; i++)
 	{
 				;
 	}
+
+	/* OLED Message an OLED Queue senden */
+	xQueueSend( xOLEDQueue, ( void * ) &xMessage, ( portTickType ) 0 );
 }
+
+//Aufgabe 4.3
+
+void vTask2(void *pvParameters)
+{
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+
+    while(1)
+    {
+    	//Aufgabe 4.4 - rest unten auskommentieren also for und taskDelay
+    	xSemaphoreTake(xSemaphore2, portMAX_DELAY);
+    	//Aufgabe 4.3
+        for(volatile int i = 0; i < 1000; i++);
+
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(10));
+    }
+}
+
+void vTask3(void *pvParameters)
+{
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+
+    while(1)
+    {
+    	//Aufgabe 4.4 - rest unten auskommentieren also for und taskDelay
+    	xSemaphoreTake(xSemaphore2, portMAX_DELAY);
+    	//Aufgabe 4.3
+        for(volatile int i = 0; i < 1000; i++);
+
+        vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(15));
+    }
+}
+
+void vTask4(void *pvParameters)
+{
+    while(1)
+    {
+    	// leer bis Aaufgabe 4.4
+    	xSemaphoreGive(xSemaphore1);
+    	for(volatile int i = 0; i < 10000; i++);
+
+    	xSemaphoreGive(xSemaphore2);
+    	for(volatile int i = 0; i < 10000; i++);
+
+    }
+}
+
 
 
 

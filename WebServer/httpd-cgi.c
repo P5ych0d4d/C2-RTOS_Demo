@@ -155,13 +155,22 @@ generate_control_page(void *arg)
 	 * lSpeed, lVoltage und lPWM. */
 
 	/* Einlesen der Prozessdaten */
+	//Aufgabe 5.3
+	xQueuePeek(xSpeedQueue, &lSpeed, (portTickType)10);
+	xQueuePeek(xVoltageQueue, &lVoltage, (portTickType)10);
+	xQueuePeek(xPulseWidthQueue, &lPWM, (portTickType)10);
 
 	extern long NominalSpeedWebInternal;
+
 
 	/* BESCHRAENKUNG DES TASTVERHAELTNISSES
 	 * Welche Einschraenkungen sind fuer lPWM sinnvoll?
 	 * Setzen Sie diese um.
 	 */
+
+	//Aufgabe 5.3 - Negative oder über 100 % liegende Tastverhältnisse sind physikalisch nicht sinnvoll und würden die Webanzeige verfälschen.
+	if (lPWM < 0)   lPWM = 0;
+	if (lPWM > 100) lPWM = 100;
 
 	/* Normieren von Parametern fuer Balkengrafiken */
 	lRelativeSpeed = (abs(lSpeed) * 200) / 15000;
@@ -176,6 +185,13 @@ generate_control_page(void *arg)
 
 	itoa((int)NominalSpeedWebInternal, NominalSpeed);
 	// usprintf( NominalSpeed, "%d", (int)NominalSpeedWebInternal );
+	//Aufgabe 5.3
+	itoa((int)lSpeed, Speed);
+	itoa((int)lVoltage, Voltage);
+	itoa((int)lPWM, PWM);
+	itoa((int)lRelativeSpeed, RelativeSpeed);
+	itoa((int)lRelativeNominalSpeed, RelativeNominalSpeed);
+	itoa((int)lRelativePWM, RelativePWM);
 
 
 	/* Erzeugung des HTML-Codes, currently uses max. 425 byte in field ResultingDoc[] */
