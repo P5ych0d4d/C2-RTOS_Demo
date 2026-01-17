@@ -92,7 +92,7 @@ void vTask1( void *pvParameters )
 
 void vTask2(void *pvParameters)
 {
-    TickType_t xLastWakeTime = xTaskGetTickCount();
+	portTickType xLastWakeTime = xTaskGetTickCount();
 
     while(1)
     {
@@ -107,7 +107,7 @@ void vTask2(void *pvParameters)
 
 void vTask3(void *pvParameters)
 {
-    TickType_t xLastWakeTime = xTaskGetTickCount();
+	portTickType xLastWakeTime = xTaskGetTickCount();
 
     while(1)
     {
@@ -178,9 +178,12 @@ void SetupProcessCommunication()
 void vSpeed_Control( void *pvParameters )
 {
   #define dummy_const 1
-	  // const for PI_controller, Kp= ?  Ti= ? Ta=5ms
-	float Kp = dummy_const;		// Regler-Verstaerkung                  !!! vom Stud. zu ermitteln
-	long Ti = dummy_const;		// Zeitkonstante des Integrators in ms	!!! vom Stud. zu ermitteln
+	// Aufgabe 5.2
+	  // const for PI_controller, Kp= 0.1,  Ti= 25ms, Ta=5ms
+	//float Kp = dummy_const;		// Regler-Verstaerkung                  !!! vom Stud. zu ermitteln Aufgabe 3.2 Kp = 0.1
+	float Kp = 0.1;		// Regler-Verstaerkung                  !!! vom Stud. zu ermitteln Aufgabe 3.2 Kp = 0.1
+	//long Ti = dummy_const;		// Zeitkonstante des Integrators in ms	!!! vom Stud. zu ermitteln
+	long Ti = 25;		// Zeitkonstante des Integrators in ms	!!! vom Stud. zu ermitteln
 	float b2;               	//      b2 = Kp*(1+(T/(2*Ti)))
 	float b1;       			//      b1 = -Kp*(1-(T/(2*Ti)))
 	float b0;   				//      b0 = 0
@@ -251,6 +254,7 @@ void vSpeed_Control( void *pvParameters )
 				if((NominalSpeed>-3000)&&(NominalSpeed<0))
 					NominalSpeed=-3000;
 				// Wenn NominalSpeed hier begrenzt wurde, wird sie fuer das WEB-Interface aktualisiert.
+				//Aufgabe 5.4 hier Vorzeichen ändern
 				NominalSpeedWebInternal = NominalSpeed;
 		  }
 
